@@ -8,7 +8,7 @@ const STATS = [
   { number: 360, unit: '°',      label: "3D Ko'rinish"  },
 ]
 
-function StatCard({ number, unit, label, delay }) {
+function StatCard({ number, unit, label, delay, last }) {
   const ref = useRef()
   const inView = useInView(ref, { once: true, margin: '-80px' })
 
@@ -20,7 +20,7 @@ function StatCard({ number, unit, label, delay }) {
       transition={{ duration: 0.5, delay }}
       style={{
         padding: '32px 24px', textAlign: 'center',
-        borderRight: '1px solid var(--border)',
+        borderRight: last ? 'none' : '1px solid var(--border)',
         background: 'rgba(0,212,255,0.03)',
       }}
     >
@@ -44,7 +44,7 @@ export default function StatsSection() {
       borderBottom: '1px solid var(--border)',
     }}>
       {STATS.map((s, i) => (
-        <StatCard key={s.label} {...s} delay={i * 0.1} />
+        <StatCard key={s.label} {...s} delay={i * 0.1} last={i === STATS.length - 1} />
       ))}
     </section>
   )
