@@ -100,7 +100,12 @@ export default function HeroSection() {
         <Canvas
           camera={{ position: [0, 3, 10], fov: 45 }}
           shadows
+          dpr={[1, 1.5]}
+          performance={{ min: 0.5 }}
           style={{ background: '#050a0f' }}
+          onCreated={({ gl }) => {
+            gl.canvas.addEventListener('webglcontextlost', e => e.preventDefault(), false)
+          }}
         >
           <ambientLight intensity={0.4} />
           <directionalLight position={[5, 10, 5]} intensity={1} castShadow />
@@ -108,9 +113,10 @@ export default function HeroSection() {
           <Environment preset="night" />
           <ContactShadows
             position={[0, -1.05, 0]}
-            opacity={0.4}
-            scale={10}
-            blur={2}
+            opacity={0.3}
+            scale={8}
+            blur={1.5}
+            frames={1}
             color="#00d4ff"
           />
           <HouseModel />
