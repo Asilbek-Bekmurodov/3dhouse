@@ -1,40 +1,56 @@
 import { useGLTF } from '@react-three/drei'
-import { useMemo, useEffect } from 'react'
+import { useEffect, useRef } from 'react'
+import { useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
 export default function HouseModel() {
   const { scene } = useGLTF('/house.glb')
+  const ref = useRef()
+  const { camera } = useThree()
 
   useEffect(() => {
+    if (!ref.current) return
+
+    scene.updateMatrixWorld(true)
+    const box = new THREE.Box3().setFromObject(scene)
+
+    if (box.isEmpty()) return
+
+    const size = new THREE.Vector3()
+    const center = new THREE.Vector3()
+    box.getSize(size)
+    box.getCenter(center)
+
+    const maxDim = Math.max(size.x, size.y, size.z)
+    const s = 3 / maxDim
+
+    ref.current.scale.setScalar(s)
+    ref.current.position.set(
+      -center.x * s,
+      -box.min.y * s - 1,
+      -center.z * s
+    )
+
+    // Kamera model ga to'g'ri yo'naltirilgan
+    const dist = maxDim * s * 2.2
+    camera.position.set(dist * 0.6, dist * 0.4, dist)
+    camera.lookAt(0, 0, 0)
+
+    console.log('[HouseModel] maxDim:', maxDim.toFixed(1), '→ s:', s.toFixed(4), '→ camDist:', dist.toFixed(1))
+
     scene.traverse(obj => {
       if (obj.isMesh) {
         obj.castShadow = true
         obj.receiveShadow = true
       }
     })
-  }, [scene])
+  }, [scene, camera])
 
-  const [normScale, normPos] = useMemo(() => {
-    // updateMatrixWorld ensures all child transforms are applied before bounds calc
-    scene.updateMatrixWorld(true)
-    const box = new THREE.Box3().setFromObject(scene)
-
-    if (box.isEmpty()) {
-      console.warn('[HouseModel] empty bounding box')
-      return [1, [0, -1, 0]]
-    }
-
-    const size = box.getSize(new THREE.Vector3())
-    const center = box.getCenter(new THREE.Vector3())
-    const maxDim = Math.max(size.x, size.y, size.z)
-
-    console.log('[HouseModel] size:', size.x.toFixed(2), size.y.toFixed(2), size.z.toFixed(2), '→ scale:', (3 / maxDim).toFixed(4))
-
-    const s = 3 / maxDim
-    return [s, [-center.x * s, -box.min.y * s - 1, -center.z * s]]
-  }, [scene])
-
-  return <primitive object={scene} scale={normScale} position={normPos} />
+  return (
+    <group ref={ref}>
+      <primitive object={scene} />
+    </group>
+  )
 }
 
 useGLTF.preload('/house.glb')
