@@ -27,9 +27,9 @@ const CameraControls = forwardRef(function CameraControls(_, ref) {
     camera.position.lerp(lerpTarget.current.position, 0.06)
     controlsRef.current.target.lerp(lerpTarget.current.target, 0.06)
     controlsRef.current.update()
-    if (camera.position.distanceTo(lerpTarget.current.position) < 0.05) {
-      lerpTarget.current = null
-    }
+    const posClose = camera.position.distanceTo(lerpTarget.current.position) < 0.05
+    const tgtClose = controlsRef.current.target.distanceTo(lerpTarget.current.target) < 0.05
+    if (posClose && tgtClose) lerpTarget.current = null
   })
 
   return (
