@@ -15,20 +15,12 @@ export default function HouseModel() {
   }, [scene])
 
   const [normScale, normPos] = useMemo(() => {
-    const box = new THREE.Box3()
-
-    // Manually traverse to union all mesh bounding boxes
-    scene.traverse(obj => {
-      if (obj.isMesh && obj.geometry) {
-        obj.geometry.computeBoundingBox()
-        const meshBox = obj.geometry.boundingBox.clone()
-        meshBox.applyMatrix4(obj.matrixWorld)
-        box.union(meshBox)
-      }
-    })
+    // updateMatrixWorld ensures all child transforms are applied before bounds calc
+    scene.updateMatrixWorld(true)
+    const box = new THREE.Box3().setFromObject(scene)
 
     if (box.isEmpty()) {
-      console.warn('[HouseModel] empty bounding box — rendering at scale 1')
+      console.warn('[HouseModel] empty bounding box')
       return [1, [0, -1, 0]]
     }
 
@@ -36,9 +28,9 @@ export default function HouseModel() {
     const center = box.getCenter(new THREE.Vector3())
     const maxDim = Math.max(size.x, size.y, size.z)
 
-    console.log('[HouseModel] size:', size.x.toFixed(2), size.y.toFixed(2), size.z.toFixed(2), '→ maxDim:', maxDim.toFixed(2))
+    console.log('[HouseModel] size:', size.x.toFixed(2), size.y.toFixed(2), size.z.toFixed(2), '→ scale:', (5 / maxDim).toFixed(4))
 
-    const s = 4 / maxDim
+    const s = 5 / maxDim        // normalize to 5 units tall
     return [s, [-center.x * s, -box.min.y * s - 1, -center.z * s]]
   }, [scene])
 

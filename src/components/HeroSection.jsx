@@ -98,7 +98,7 @@ export default function HeroSection() {
         </div>
 
         <Canvas
-          camera={{ position: [0, 3, 12], fov: 45 }}
+          camera={{ position: [0, 4, 14], fov: 50 }}
           shadows
           dpr={[1, 1.5]}
           performance={{ min: 0.5 }}
