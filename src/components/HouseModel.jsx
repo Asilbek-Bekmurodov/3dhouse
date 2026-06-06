@@ -28,9 +28,9 @@ export default function HouseModel() {
     const center = box.getCenter(new THREE.Vector3())
     const maxDim = Math.max(size.x, size.y, size.z)
 
-    console.log('[HouseModel] size:', size.x.toFixed(2), size.y.toFixed(2), size.z.toFixed(2), '→ scale:', (5 / maxDim).toFixed(4))
+    console.log('[HouseModel] size:', size.x.toFixed(2), size.y.toFixed(2), size.z.toFixed(2), '→ scale:', (3 / maxDim).toFixed(4))
 
-    const s = 5 / maxDim        // normalize to 5 units tall
+    const s = 3 / maxDim
     return [s, [-center.x * s, -box.min.y * s - 1, -center.z * s]]
   }, [scene])
 
