@@ -98,7 +98,7 @@ export default function HeroSection() {
         </div>
 
         <Canvas
-          camera={{ position: [0, 3, 10], fov: 45 }}
+          camera={{ position: [0, 3, 12], fov: 45 }}
           shadows
           dpr={[1, 1.5]}
           performance={{ min: 0.5 }}
@@ -107,10 +107,11 @@ export default function HeroSection() {
             gl.canvas.addEventListener('webglcontextlost', e => e.preventDefault(), false)
           }}
         >
-          <ambientLight intensity={0.4} />
-          <directionalLight position={[5, 10, 5]} intensity={1} castShadow />
-          <pointLight position={[-5, 3, -5]} color="#00d4ff" intensity={0.5} />
-          <Environment preset="night" />
+          <ambientLight intensity={1.5} />
+          <directionalLight position={[8, 12, 8]}  intensity={2.5} castShadow />
+          <directionalLight position={[-8, 6, -4]} intensity={1.0} color="#c0d8ff" />
+          <pointLight position={[0, 6, 0]} color="#00d4ff" intensity={1.5} />
+          <Environment preset="warehouse" />
           <ContactShadows
             position={[0, -1.05, 0]}
             opacity={0.3}
