@@ -97,7 +97,11 @@ export default function HeroSection() {
           ⟳ Drag to Rotate
         </div>
 
-        <Canvas camera={{ position: [0, 2, 8], fov: 45 }} shadows>
+        <Canvas
+          camera={{ position: [0, 3, 10], fov: 45 }}
+          shadows
+          style={{ background: '#050a0f' }}
+        >
           <ambientLight intensity={0.4} />
           <directionalLight position={[5, 10, 5]} intensity={1} castShadow />
           <pointLight position={[-5, 3, -5]} color="#00d4ff" intensity={0.5} />
