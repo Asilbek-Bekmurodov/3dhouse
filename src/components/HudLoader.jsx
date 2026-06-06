@@ -61,8 +61,8 @@ export default function HudLoader() {
                 background: 'linear-gradient(90deg, #0088cc, var(--cyan))',
                 boxShadow: '0 0 8px var(--cyan)',
               }}
-              animate={{ width: `${pct}%` }}
-              transition={{ ease: 'linear' }}
+              animate={{ width: `${Math.min(100, pct)}%` }}
+              transition={{ ease: 'linear', duration: 0.2 }}
             />
           </div>
 

@@ -29,10 +29,10 @@ export default function Navbar() {
         {['3D Model', 'Xususiyatlar', 'Aloqa'].map(link => (
           <a
             key={link}
-            href={`#${link.toLowerCase().replace(' ', '-')}`}
+            href={`#${link.toLowerCase().replaceAll(' ', '-')}`}
             style={{ fontSize: 12, letterSpacing: 1.5, color: 'var(--text-muted)', textTransform: 'uppercase' }}
-            onMouseEnter={e => (e.target.style.color = 'var(--cyan)')}
-            onMouseLeave={e => (e.target.style.color = 'var(--text-muted)')}
+            onMouseEnter={e => (e.currentTarget.style.color = 'var(--cyan)')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}
           >
             {link}
           </a>
