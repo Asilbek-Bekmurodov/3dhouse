@@ -103,9 +103,6 @@ export default function HeroSection() {
           dpr={[1, 1.5]}
           performance={{ min: 0.5 }}
           style={{ background: '#050a0f' }}
-          onCreated={({ gl }) => {
-            gl.canvas.addEventListener('webglcontextlost', e => e.preventDefault(), false)
-          }}
         >
           <ambientLight intensity={1.5} />
           <directionalLight position={[8, 12, 8]}  intensity={2.5} castShadow />
