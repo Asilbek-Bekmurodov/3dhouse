@@ -10,6 +10,7 @@ export default function HouseModel() {
         obj.castShadow = true
         obj.receiveShadow = true
         if (obj.material) {
+          obj.material = obj.material.clone()
           obj.material.envMapIntensity = 1.5
         }
       }

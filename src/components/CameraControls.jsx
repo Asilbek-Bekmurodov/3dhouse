@@ -6,7 +6,7 @@ import * as THREE from 'three'
 const VIEWS = {
   front: { position: new THREE.Vector3(0, 2, 8),   target: new THREE.Vector3(0, 0, 0) },
   side:  { position: new THREE.Vector3(8, 2, 0),   target: new THREE.Vector3(0, 0, 0) },
-  top:   { position: new THREE.Vector3(0, 12, 0),  target: new THREE.Vector3(0, 0, 0) },
+  top:   { position: new THREE.Vector3(0.01, 12, 0), target: new THREE.Vector3(0, 0, 0) },
   close: { position: new THREE.Vector3(3, 1.5, 4), target: new THREE.Vector3(0, 1, 0) },
 }
 
