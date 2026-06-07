@@ -98,7 +98,7 @@ export default function HeroSection() {
         </div>
 
         <Canvas
-          camera={{ position: [0, 4, 14], fov: 50 }}
+          camera={{ position: [4, 2.5, 7], fov: 45 }}
           shadows
           dpr={[1, 1.5]}
           performance={{ min: 0.5 }}
@@ -110,9 +110,9 @@ export default function HeroSection() {
           <pointLight position={[0, 6, 0]} color="#00d4ff" intensity={1.5} />
           <Environment preset="warehouse" />
           <ContactShadows
-            position={[0, -1.05, 0]}
-            opacity={0.3}
-            scale={8}
+            position={[0, -0.02, 0]}
+            opacity={0.35}
+            scale={10}
             blur={1.5}
             frames={1}
             color="#00d4ff"

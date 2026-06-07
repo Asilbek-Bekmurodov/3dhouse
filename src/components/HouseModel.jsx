@@ -1,19 +1,14 @@
 import { useGLTF } from '@react-three/drei'
-import { useEffect, useRef } from 'react'
-import { useThree } from '@react-three/fiber'
+import { useEffect, useState } from 'react'
 import * as THREE from 'three'
 
 export default function HouseModel() {
   const { scene } = useGLTF('/house.glb')
-  const ref = useRef()
-  const { camera } = useThree()
+  const [transform, setTransform] = useState(null)
 
   useEffect(() => {
-    if (!ref.current) return
-
     scene.updateMatrixWorld(true)
     const box = new THREE.Box3().setFromObject(scene)
-
     if (box.isEmpty()) return
 
     const size = new THREE.Vector3()
@@ -24,19 +19,10 @@ export default function HouseModel() {
     const maxDim = Math.max(size.x, size.y, size.z)
     const s = 3 / maxDim
 
-    ref.current.scale.setScalar(s)
-    ref.current.position.set(
-      -center.x * s,
-      -box.min.y * s - 1,
-      -center.z * s
-    )
-
-    // Kamera model ga to'g'ri yo'naltirilgan
-    const dist = maxDim * s * 2.2
-    camera.position.set(dist * 0.6, dist * 0.4, dist)
-    camera.lookAt(0, 0, 0)
-
-    console.log('[HouseModel] maxDim:', maxDim.toFixed(1), '→ s:', s.toFixed(4), '→ camDist:', dist.toFixed(1))
+    setTransform({
+      scale: s,
+      position: [-center.x * s, -box.min.y * s, -center.z * s],
+    })
 
     scene.traverse(obj => {
       if (obj.isMesh) {
@@ -44,15 +30,15 @@ export default function HouseModel() {
         obj.receiveShadow = true
       }
     })
-  }, [scene, camera])
+  }, [scene])
+
+  if (!transform) return null
 
   return (
-    <group ref={ref}>
+    <group scale={transform.scale} position={transform.position}>
       <primitive object={scene} />
     </group>
   )
 }
-
-useGLTF.preload('/house.glb')
 
 useGLTF.preload('/house.glb')
